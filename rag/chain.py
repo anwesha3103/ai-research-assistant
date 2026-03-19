@@ -1,43 +1,7 @@
 # ============================================================
 # rag/chain.py — RAG Chain + LLM Switching
 # ============================================================
-#
-# 📖 CONCEPT: What is a RAG Chain?
-# ──────────────────────────────────
-# Without RAG:
-#   User: "What does my PDF say about transformers?"
-#   LLM:  "I don't have access to your PDF." ❌
-#
-# With RAG:
-#   1. Embed the user's question
-#   2. Retrieve top-K similar chunks from ChromaDB  ← Retrieval
-#   3. Build prompt: "Context: {chunks} Question: {question}"
-#   4. LLM answers using ONLY the provided context  ← Augmented Generation
-#
-# 📖 CONCEPT: Why does RAG reduce hallucination?
-# ────────────────────────────────────────────────
-# Without RAG → LLM answers from training memory → can confabulate
-# With RAG    → LLM is GROUNDED to retrieved text → must stay faithful
-# We enforce this via the system prompt: "only use provided context"
-#
-# 📖 CONCEPT: Conversational Memory
-# ───────────────────────────────────
-# LLMs are stateless — they don't remember previous messages.
-# ConversationBufferWindowMemory fixes this by appending the
-# last K exchanges to every new prompt.
-#
-# Without memory:
-#   User: "Who wrote this paper?"     → LLM answers ✅
-#   User: "What else did they write?" → LLM: "Who?" ❌
-#
-# With memory (k=10):
-#   Full chat history injected into every prompt → follow-ups work ✅
-#
-# 📖 CONCEPT: LLM Abstraction
-# ─────────────────────────────
-# Both OpenAI and Gemini implement LangChain's BaseChatModel.
-# Our chain only talks to BaseChatModel → swapping providers
-# requires zero changes to chain logic. Pure abstraction. ✅
+
 
 from typing import Tuple, List
 
@@ -112,7 +76,7 @@ def build_rag_chain(retriever, llm):
         verbose=False,
     )
 
-    logger.info("✅ RAG chain ready")
+    logger.info(" RAG chain ready")
     return chain
 
 
