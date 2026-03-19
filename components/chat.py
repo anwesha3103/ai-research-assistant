@@ -11,17 +11,17 @@ logger = get_logger()
 def render_chat():
     if not ss.get("uploaded_filenames"):
         st.markdown("""
-        ### 👋 Welcome to AI Research Assistant!
+        ###  Welcome to AI Research Assistant!
 
         **Get started in 3 steps:**
 
-        1. 🔑 Add your API keys — copy `.env.example` to `.env` and fill in your keys
-        2. 📁 Upload documents — use the sidebar to upload PDF, DOCX, or TXT files
-        3. 💬 Start chatting — ask anything about your documents!
+        1.  Add your API keys — copy `.env.example` to `.env` and fill in your keys
+        2.  Upload documents — use the sidebar to upload PDF, DOCX, or TXT files
+        3.  Start chatting — ask anything about your documents!
 
         ---
 
-        #### 💡 Example questions:
+        ####  Example questions:
         - *"Summarize the main findings of this paper"*
         - *"What methodology was used in the study?"*
         - *"List all key concepts mentioned in chapter 2"*
@@ -30,24 +30,24 @@ def render_chat():
         """)
         return
 
-    st.markdown("### 💬 Chat")
+    st.markdown("###  Chat")
 
     # ── Render chat history ───────────────────────────────────
     for msg in ss.get("chat_history", []):
         with st.chat_message(msg["role"]):
             st.markdown(msg["content"])
             if msg["role"] == "assistant" and msg.get("sources"):
-                with st.expander("📎 View Sources", expanded=False):
+                with st.expander(" View Sources", expanded=False):
                     st.markdown(msg["sources"])
 
     # ── Quick start buttons ───────────────────────────────────
     if not ss.get("chat_history"):
-        st.markdown("#### 🚀 Quick Start:")
+        st.markdown("####  Quick Start:")
         col1, col2, col3 = st.columns(3)
         quick_prompts = [
-            ("📝 Summarize",      "Give me a comprehensive summary of all uploaded documents"),
-            ("🔑 Key Concepts",   "What are the most important concepts and terms in these documents?"),
-            ("❓ Main Questions", "What are the main research questions or problems addressed?"),
+            (" Summarize",      "Give me a comprehensive summary of all uploaded documents"),
+            (" Key Concepts",   "What are the most important concepts and terms in these documents?"),
+            (" Main Questions", "What are the main research questions or problems addressed?"),
         ]
         for col, (label, prompt) in zip([col1, col2, col3], quick_prompts):
             with col:
@@ -69,19 +69,19 @@ def render_chat():
                 st.error("No documents indexed yet. Please upload files first.")
                 return
             try:
-                with st.spinner("🔗 Initialising AI chain..."):
+                with st.spinner(" Initialising AI chain..."):
                     llm          = get_llm(ss.llm_provider)
                     retriever    = get_retriever(ss.vectorstore)
                     ss.rag_chain = build_rag_chain(retriever, llm)
                     logger.info(f"Chain built with {ss.llm_provider}")
             except ValueError as e:
-                st.error(f"⚠️ {str(e)}")
-                st.info("💡 Check your API keys in the `.env` file.")
+                st.error(f" {str(e)}")
+                st.info(" Check your API keys in the `.env` file.")
                 return
 
         # ── Query ─────────────────────────────────────────────
         with st.chat_message("assistant"):
-            with st.spinner("🤔 Thinking..."):
+            with st.spinner(" Thinking..."):
                 try:
                     # Build history tuples from chat history
                     history = ss.get("chat_history", [])
@@ -116,9 +116,9 @@ def render_chat():
                     logger.info("Response delivered successfully")
 
                 except Exception as e:
-                    st.error(f"❌ Error: {str(e)}")
+                    st.error(f" Error: {str(e)}")
                     logger.error(f"Query error: {e}")
                     if "api key" in str(e).lower():
-                        st.info("💡 Check your API key in the `.env` file.")
+                        st.info(" Check your API key in the `.env` file.")
                     elif "quota" in str(e).lower() or "rate" in str(e).lower():
-                        st.info("💡 API rate limit hit — wait a moment and retry.")
+                        st.info("! API rate limit hit — wait a moment and retry.")
