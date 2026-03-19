@@ -1,9 +1,6 @@
 # ============================================================
 # config.py — Central Configuration
 # ============================================================
-# Single source of truth for all settings.
-# Every other file imports from here — never hardcode values
-# anywhere else in the project.
 
 import os
 from dotenv import load_dotenv
