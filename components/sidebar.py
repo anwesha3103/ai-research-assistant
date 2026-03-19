@@ -31,10 +31,10 @@ def render_sidebar():
     ingestion logic. Returns the selected LLM provider.
     """
     with st.sidebar:
-        st.markdown("## ⚙️ Settings")
+        st.markdown("##  Settings")
 
         # ── LLM Provider Switcher ────────────────────────────
-        st.markdown("### 🤖 LLM Provider")
+        st.markdown("###  LLM Provider")
         llm_provider = st.selectbox(
             "Choose your AI model:",
             options=["OpenAI GPT-4o", "Google Gemini 1.5 Pro"],
@@ -62,7 +62,7 @@ def render_sidebar():
             ]
 
             if new_files:
-                with st.spinner(f"⚙️ Indexing {len(new_files)} file(s)..."):
+                with st.spinner(f" Indexing {len(new_files)} file(s)..."):
                     try:
                         # ── Full ingestion pipeline ──────────
                         # Step 1: Load raw text
@@ -92,7 +92,7 @@ def render_sidebar():
                             ss.rag_chain = None
 
                             st.success(
-                                f"✅ Indexed {len(new_files)} file(s) "
+                                f" Indexed {len(new_files)} file(s) "
                                 f"→ {len(chunks)} chunks"
                             )
                             logger.info(
@@ -111,10 +111,10 @@ def render_sidebar():
 
         # ── Indexed Files Display ────────────────────────────
         if ss.get("uploaded_filenames"):
-            st.markdown("### 📚 Indexed Documents")
+            st.markdown("###  Indexed Documents")
 
             for fname in ss.uploaded_filenames:
-                st.markdown(f"✅ `{fname}`")
+                st.markdown(f" `{fname}`")
 
             # Metrics
             col1, col2 = st.columns(2)
@@ -141,7 +141,7 @@ def render_sidebar():
         st.divider()
 
         # ── Clear Button ─────────────────────────────────────
-        if st.button("🗑️ Clear Everything", type="secondary"):
+        if st.button(" Clear Everything", type="secondary"):
             clear_vectorstore()
             ss.chat_history       = []
             ss.vectorstore        = None
@@ -154,7 +154,7 @@ def render_sidebar():
 
         # ── API Key Status ───────────────────────────────────
         st.divider()
-        st.markdown("### 🔑 API Key Status")
+        st.markdown("###  API Key Status")
         openai_ok = bool(
             config.OPENAI_API_KEY and
             config.OPENAI_API_KEY != "sk-your-openai-key-here"
@@ -163,7 +163,7 @@ def render_sidebar():
             config.GOOGLE_API_KEY and
             config.GOOGLE_API_KEY != "your-google-gemini-key-here"
         )
-        st.markdown(f"OpenAI: {'✅ Connected' if openai_ok else '❌ Not set'}")
-        st.markdown(f"Gemini: {'✅ Connected' if google_ok else '❌ Not set'}")
+        st.markdown(f"OpenAI: {' Connected' if openai_ok else ' Not set'}")
+        st.markdown(f"Gemini: {' Connected' if google_ok else ' Not set'}")
 
     return llm_provider
