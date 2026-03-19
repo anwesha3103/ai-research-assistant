@@ -1,34 +1,6 @@
 # ============================================================
 # rag/vectorstore.py — ChromaDB Vector Store Interface
 # ============================================================
-#
-# 📖 CONCEPT: What is a Vector Database?
-# ────────────────────────────────────────
-# A normal database stores text and matches it exactly.
-# A vector database stores embeddings and matches by SIMILARITY.
-#
-# Normal DB:   SELECT * WHERE text = "heart attack"   → exact match
-# Vector DB:   find chunks closest to embed("cardiac") → semantic match
-#
-# 📖 CONCEPT: ChromaDB
-# ─────────────────────
-# • Runs locally on your machine (no cloud signup needed)
-# • Persists data to disk → survives app restarts
-# • Organises vectors into "collections" (like tables in SQL)
-# • Default similarity metric: cosine similarity
-#
-# 📖 CONCEPT: MMR (Maximal Marginal Relevance)
-# ─────────────────────────────────────────────
-# Problem with plain similarity search:
-#   Query: "what is the methodology?"
-#   Returns: 5 chunks that are nearly IDENTICAL to each other
-#   → Wastes context window, repetitive answer
-#
-# MMR solves this by balancing:
-#   • Relevance   → how similar is the chunk to the query?
-#   • Diversity   → how different is it from already selected chunks?
-#
-# Result: 5 chunks that are all relevant BUT cover different aspects ✅
 
 from typing import List, Optional
 from langchain_core.documents import Document
@@ -62,7 +34,7 @@ def build_vectorstore(chunks: List[Document]) -> Chroma:
         persist_directory=config.CHROMA_PERSIST_DIR,
     )
 
-    logger.info(f"✅ Vector store built with {len(chunks)} vectors")
+    logger.info(f" Vector store built with {len(chunks)} vectors")
     return vectorstore
 
 
@@ -132,7 +104,7 @@ def get_retriever(vectorstore: Chroma):
 
     search_type options:
       "similarity" → plain cosine similarity
-      "mmr"        → Maximal Marginal Relevance (diverse + relevant) ✅
+      "mmr"        → Maximal Marginal Relevance (diverse + relevant) 
     """
     logger.info(f"Creating retriever (top_k={config.TOP_K_RESULTS})")
 
