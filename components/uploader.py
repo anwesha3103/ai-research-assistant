@@ -20,7 +20,7 @@ def render_uploader():
       valid_files  → list of validated UploadedFile objects
                      ready to be passed to the RAG pipeline
     """
-    st.markdown("### 📁 Upload Documents")
+    st.markdown("###  Upload Documents")
 
     uploaded_files = st.file_uploader(
         "Upload PDF, DOCX, or TXT files",
@@ -41,6 +41,6 @@ def render_uploader():
 
     # Show success count
     if valid_files:
-        st.success(f"✅ {len(valid_files)} file(s) ready to index")
+        st.success(f" {len(valid_files)} file(s) ready to index")
 
     return valid_files
