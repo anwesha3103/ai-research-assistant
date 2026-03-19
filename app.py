@@ -1,24 +1,7 @@
 # ============================================================
 # app.py — Main Streamlit Entry Point
 # ============================================================
-# This is the file you run to launch the app:
-#   streamlit run app.py
-#
-# It does three things:
-#   1. Configures the Streamlit page
-#   2. Initialises session state
-#   3. Calls the sidebar + chat components
-#
-# 📖 CONCEPT: Streamlit Execution Model
-# ───────────────────────────────────────
-# Streamlit re-runs this ENTIRE file on every user interaction.
-# That means every button click, every message sent —
-# the whole script runs top to bottom again.
-#
-# This is why session state exists:
-#   ss.vectorstore, ss.rag_chain, ss.chat_history
-#   → these persist across re-runs so we don't
-#     re-embed documents or lose chat history on every click.
+
 
 import streamlit as st
 from streamlit import session_state as ss
