@@ -1,17 +1,7 @@
 # ============================================================
 # utils/file_validator.py — File Validation
 # ============================================================
-# Before we process any uploaded file, we validate it.
-#
-# 📖 WHY VALIDATE?
-# ─────────────────
-# Without validation, users could upload:
-#   • Unsupported formats (.exe, .mp4) → crashes the loader
-#   • Massive files (500MB PDF) → kills memory / API costs
-#   • Empty files → confusing errors deep in the pipeline
-#
-# Validating early = failing fast with a clear message
-# instead of a cryptic error 5 steps later.
+
 
 from typing import Tuple, List
 import os
@@ -36,7 +26,7 @@ def validate_file(uploaded_file) -> Tuple[bool, str]:
     ext = os.path.splitext(filename)[-1].lower()
 
     if ext not in config.ALLOWED_EXTENSIONS:
-        msg = (f"❌ '{filename}' is not supported. "
+        msg = (f" '{filename}' is not supported. "
                f"Allowed types: {', '.join(config.ALLOWED_EXTENSIONS)}")
         logger.warning(f"Invalid file type: {ext} for file {filename}")
         return False, msg
@@ -46,18 +36,18 @@ def validate_file(uploaded_file) -> Tuple[bool, str]:
     size_mb = uploaded_file.size / (1024 * 1024)
 
     if size_mb > config.MAX_FILE_SIZE_MB:
-        msg = (f"❌ '{filename}' is {size_mb:.1f}MB — "
+        msg = (f" '{filename}' is {size_mb:.1f}MB — "
                f"max allowed is {config.MAX_FILE_SIZE_MB}MB")
         logger.warning(f"File too large: {size_mb:.1f}MB for file {filename}")
         return False, msg
 
     # ── Check 3: Empty file ──────────────────────────────────
     if uploaded_file.size == 0:
-        msg = f"❌ '{filename}' is empty."
+        msg = f" '{filename}' is empty."
         logger.warning(f"Empty file uploaded: {filename}")
         return False, msg
 
-    logger.info(f"✅ File validated: {filename} ({size_mb:.2f}MB)")
+    logger.info(f" File validated: {filename} ({size_mb:.2f}MB)")
     return True, ""
 
 
