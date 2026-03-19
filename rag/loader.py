@@ -1,31 +1,7 @@
 # ============================================================
 # rag/loader.py — Document Ingestion & Chunking
 # ============================================================
-#
-# 📖 CONCEPT: The Ingestion Pipeline
-# ────────────────────────────────────
-# Raw file → Extract text → Split into chunks → Ready for embedding
-#
-# 📖 CONCEPT: Why Chunk?
-# ───────────────────────
-# LLMs have a context window limit (e.g. GPT-4o = 128k tokens).
-# A 100-page PDF ≈ 75,000 tokens — expensive & noisy to send whole.
-# Instead we split into small chunks, embed each one, and at
-# query time only retrieve the TOP 5 most relevant chunks.
-#
-# 📖 CONCEPT: Chunk Size Trade-offs
-# ───────────────────────────────────
-# Too small (100-200 chars) → loses context, answers incomplete
-# Too large (3000+ chars)   → retrieval is noisy, costs more tokens
-# Sweet spot: 800-1200 chars with 15-20% overlap
-#
-# 📖 CONCEPT: Overlap
-# ─────────────────────
-# If an answer sits at the BOUNDARY of two chunks:
-#   Chunk 3 ends: "The key finding was..."
-#   Chunk 4 starts: "...a 34% reduction in error rate."
-# Without overlap → retrieval misses the complete answer.
-# With overlap → both chunks contain the boundary text. ✅
+
 
 import os
 import tempfile
@@ -109,7 +85,7 @@ def chunk_documents(documents: List[Document]) -> List[Document]:
     Split documents into smaller overlapping chunks using
     RecursiveCharacterTextSplitter — LangChain's smartest splitter.
 
-    📖 HOW RecursiveCharacterTextSplitter WORKS:
+     HOW RecursiveCharacterTextSplitter WORKS:
     ─────────────────────────────────────────────
     It tries separators in ORDER, falling back to the next if
     the chunk is still too large:
