@@ -1,9 +1,9 @@
 # ============================================================
 # utils/logger.py — Logging Setup
 # ============================================================
-# We use Loguru instead of Python's built-in logging.
+# Loguru instead of Python's built-in logging.
 #
-# 📖 WHY LOGURU?
+#  WHY LOGURU?
 # ───────────────
 # Built-in logging:
 #   import logging
